@@ -44,6 +44,7 @@ vector<FlightList::Flight> getDataFromCSVFile(string filePath){
             getline(stream, unused, ',');
             getline(stream, unused, ',');
             getline(stream, unused, ',');
+            getline(stream, unused, ',');
             getline(stream, carrier, ',');
             getline(stream, unused, ',');
             getline(stream, unused, ',');
@@ -116,12 +117,16 @@ vector<FlightList::Flight> getDataFromCSVFile(string filePath){
         }
     }
 
+    return temp;
+
 }
 
 int main() {
+    cout << "Initializing..." << endl;
+
     FlightList flightData;
 
-    flightData.flightList = getDataFromCSVFile("../DelayedFlights.csv");
+    flightData.flightList = getDataFromCSVFile("DelayedFlights.csv");
 
     string sortBy;
     string airlineSortBy;
@@ -132,8 +137,14 @@ int main() {
     cout << "What would you like to sort by?: Airline or Airport" << endl;
     cin >>  sortBy; 
     if(sortBy == "Airline"){
-        cout << "Enter the IATA of the Airline you are flying (e.g. Southwest is NW):" << endl;
+        cout << "Enter the IATA of the Airline you are flying (e.g. Southwest is WN):" << endl;
         cin >> airlineSortBy;
+
+
+        pair<string,double> p = flightData.shellSortDepartureDelay(flightData.getAvgDelayAirline(airlineSortBy));
+        cout << "Airport: " << p.first << endl;
+        cout << "The minimum avg. departure delay time for " << airlineSortBy << " is at " << p.first << ", and is " << p.second << " minutes." << endl;
+
     }
     if(sortBy == "Airport"){
         cout << "Enter the IATA of the Airport you are flying out of (e.g. Orlando is MCO):" << endl;
