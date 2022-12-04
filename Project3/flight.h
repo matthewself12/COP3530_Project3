@@ -93,9 +93,38 @@ public:
         }
 
         // sort the arrays (by sorting the avgDelays array) using QUICK SORT
-        
+        quickSort(avgDelays, 0, map.size() -1);
+
+        // sort the arrays (by sorting the avgDelays array) using QUICK SORT
+
 
         return pair<string,double>(arr[0], avgDelays[0]);
+    }
+    void swap(double *a, double *b) {
+        int t = *a;
+        *a = *b;
+        *b = t;
+    }
+
+    int partition(double array[], int low, int high) {
+        int pivot = array[high];
+        int i = (low - 1);
+        for (int j = low; j < high; j++) {
+            if (array[j] <= pivot) {
+                i++;
+                swap(&array[i], &array[j]);
+            }
+        }
+        swap(&array[i + 1], &array[high]);
+        return (i + 1);
+    }
+
+    void quickSort(double array[], int low, int high) {
+        if (low < high) {
+            int pi = partition(array, low, high);
+            quickSort(array, low, pi - 1);
+            quickSort(array, pi + 1, high);
+        }
     }
 
     // method to get the avg delay time of a certain airline at each airport

@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/selfb/Documents/GitHub/COP3530_Project3/Project3
+# Install script for directory: C:/Users/devan/OneDrive/Documents/GitHub/COP3530_Project3/Project3
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/selfb/Documents/GitHub/COP3530_Project3/Project3/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/devan/OneDrive/Documents/GitHub/COP3530_Project3/Project3/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
