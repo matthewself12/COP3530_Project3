@@ -140,7 +140,6 @@ int main() {
         cout << "Enter the IATA of the Airline you are flying (e.g. Southwest is WN):" << endl;
         cin >> airlineSortBy;
 
-
         pair<string,double> p = flightData.shellSortDepartureDelay(flightData.getAvgDelayAirline(airlineSortBy));
         cout << "Airport: " << p.first << endl;
         cout << "The minimum avg. departure delay time for " << airlineSortBy << " is at " << p.first << ", and is " << p.second << " minutes." << endl;
@@ -149,6 +148,10 @@ int main() {
     if(sortBy == "Airport"){
         cout << "Enter the IATA of the Airport you are flying out of (e.g. Orlando is MCO):" << endl;
         cin >> airportSortBy;
+
+        pair<string,double> p = flightData.shellSortDepartureDelay(flightData.getAvgDelayAirport(airportSortBy));
+        cout << "Airline: " << p.first << endl;
+        cout << "The minimum avg. departure delay time at " << airportSortBy << " is for " << p.first << " and is " << p.second << " minutes." << endl;
     }
 
 

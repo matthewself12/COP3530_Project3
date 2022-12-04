@@ -51,14 +51,25 @@ public:
         }
 
         // sort the arrays (by sorting the avgDelays array) using SHELL SORT
-
         int size = map.size();
-        int gap;
-        for(gap = size / 2; gap >= 1; gap /= 2) {
+        for(int gap = size / 2; gap >= 1; gap /= 2) { // divide gap by 2 each iteration
             for(int i = 0; (i + gap) < size; i++) {
-                // compare the elements at i and (i + gap)
-                if(avgDelays[i] > avgDelays[i + gap]) {
-
+                // insertion sort part of shell sort
+                for(int j = i + gap; j < size; j += gap) {
+                    for(int k = j; k > gap - 1; k -= gap) {
+                        // check if the elements are in order
+                        if(avgDelays[k] < avgDelays[k - gap]) {
+                            // swap elements
+                            double temp = avgDelays[k - gap];
+                            string tempStr = arr[k - gap];
+                            avgDelays[k - gap] = avgDelays[k];
+                            arr[k - gap] = arr[k];
+                            avgDelays[k] = temp;
+                            arr[k] = tempStr;
+                        } else {
+                            break; // since element is inserted in correct spot, break
+                        }
+                    }
                 }
             }
         }
@@ -105,6 +116,30 @@ public:
                     // add the delay time and increment numFlights
                     map[airport].first = map[airport].first + f.departureDelay;
                     map[airport].second = map[airport].second + 1;
+                }
+            }
+        }
+        return map;
+    }
+
+    // method to get the avg delay time at a certain airport for each airline
+    unordered_map<string, pair<int,int>> getAvgDelayAirport(string airport) {
+        unordered_map<string, pair<int,int>> map;
+        for(Flight f : flightList) {
+            if(f.origin == airport) { // if the flight was the desired airline
+                // get the airline
+                string airline = f.carrier;
+                // check if the airline has already been added to the map
+                if(map.find(airline) != map.end()) {
+                    // since airline already added, add the delay time and increment numFlights
+                    map[airline].first = map[airline].first + f.departureDelay;
+                    map[airline].second = map[airline].second + 1;
+                } else {
+                    // add the airline to the map
+                    map[airline] = pair<int,int>(0,0);
+                    // add the delay time and increment numFlights
+                    map[airline].first = map[airline].first + f.departureDelay;
+                    map[airline].second = map[airline].second + 1;
                 }
             }
         }
