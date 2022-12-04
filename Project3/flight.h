@@ -36,7 +36,7 @@ public:
     unordered_map<string, vector<Flight>> airportMap;
 
     // method to sort a vector list of flights by departure delay time and return the flight object with the least
-    pair<string, double> shellSortDepartureDelay(unordered_map<string, pair<int,int>> map) {
+    vector<pair<string, double>> shellSortDepartureDelay(unordered_map<string, pair<int,int>> map) {
         // make an array of the airports/airlines
         string arr[map.size()];
         // make an array of the avg delay time at each airport/airline
@@ -74,11 +74,15 @@ public:
             }
         }
 
-        return pair<string,double>(arr[0], avgDelays[0]);
+        vector<pair<string,double>> res;
+        res.push_back(pair<string,double>(arr[0], avgDelays[0]));
+        res.push_back(pair<string,double>(arr[1], avgDelays[1]));
+        res.push_back(pair<string,double>(arr[2], avgDelays[2]));
+        return res;
     }
 
     // method to sort a vector list of flights by departure delay time and return the flight object with the least
-    pair<string, double> quickSortDepartureDelay(unordered_map<string, pair<int,int>> map) {
+    vector<pair<string, double>> quickSortDepartureDelay(unordered_map<string, pair<int,int>> map) {
         // make an array of the airports/airlines
         string arr[map.size()];
         // make an array of the avg delay time at each airport/airline
@@ -95,11 +99,13 @@ public:
         // sort the arrays (by sorting the avgDelays array) using QUICK SORT
         quickSort(avgDelays, 0, map.size() -1);
 
-        // sort the arrays (by sorting the avgDelays array) using QUICK SORT
-
-
-        return pair<string,double>(arr[0], avgDelays[0]);
+        vector<pair<string,double>> res;
+        res.push_back(pair<string,double>(arr[0], avgDelays[0]));
+        res.push_back(pair<string,double>(arr[1], avgDelays[1]));
+        res.push_back(pair<string,double>(arr[2], avgDelays[2]));
+        return res;
     }
+
     void swap(double *first, double *second) {
         double temp = *first;
         *first = *second;
