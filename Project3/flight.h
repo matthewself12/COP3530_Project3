@@ -84,52 +84,85 @@ public:
     // method to sort a vector list of flights by departure delay time and return the flight object with the least
     vector<pair<string, double>> quickSortDepartureDelay(unordered_map<string, pair<int,int>> map) {
         // make an array of the airports/airlines
-        string arr[map.size()];
+        string names[map.size()];
         // make an array of the avg delay time at each airport/airline
         double avgDelays[map.size()];
 
         // fill the two arrays
         int i = 0;
         for(auto it = map.begin(); it != map.end(); it++) {
-            arr[i] = it->first;
+            names[i] = it->first;
             avgDelays[i] = it->second.first / (double)it->second.second;
             i++;
         }
 
         // sort the arrays (by sorting the avgDelays array) using QUICK SORT
-        quickSort(avgDelays, 0, map.size() -1);
+        quickSortHelper(avgDelays, names, 0, map.size() - 1);
 
         vector<pair<string,double>> res;
-        res.push_back(pair<string,double>(arr[0], avgDelays[0]));
-        res.push_back(pair<string,double>(arr[1], avgDelays[1]));
-        res.push_back(pair<string,double>(arr[2], avgDelays[2]));
+        res.push_back(pair<string,double>(names[0], avgDelays[0]));
+        res.push_back(pair<string,double>(names[1], avgDelays[1]));
+        res.push_back(pair<string,double>(names[2], avgDelays[2]));
         return res;
     }
 
-    void swap(double *first, double *second) {
-        double temp = *first;
-        *first = *second;
-        *second = temp;
-    }
+    // CITATION: Inspired by code in Module 6 Lecture Slides
+    // https://ufl.instructure.com/courses/460732/pages/module-6-sorting
+    int partition2(double avgDelays[], string names[], int front, int back) {
+        // set the pivot to the first elements
+        int pivIndex = front;
+        int up = front; // up index
+        int down = back; // down index
 
-    int partition(double array[], int front, int back) {
-        int pivot = array[back];
-        int i = (front - 1);
-        for (int j = front; j < back; j++) {
-            if (array[j] <= pivot) {
-                i++;
-                swap(&array[i], &array[j]);
+        while(up < down) {
+            // move up to the right until the element at up is greater than the pivot
+            for(int i = up; i < back; i++) {
+                if(avgDelays[up] > avgDelays[pivIndex]) { // if the element at up is greater than the pivot value, break
+                    break;
+                } else {
+                    up++;
+                }
+            }
+            // move down to the left until the element at down is less than the pivot
+            for(int i = down; i > front; i--) {
+                if(avgDelays[down] < avgDelays[pivIndex]) {
+                    break;
+                } else {
+                    down--;
+                }
+            }
+            // check if up is to the left of down (if so, swap the values at those indices)
+            if(up < down) {
+                double temp = avgDelays[up];
+                avgDelays[up] = avgDelays[down];
+                avgDelays[down] = temp;
+                string tempStr = names[up]; // swap the airline/airport names too
+                names[up] = names[down];
+                names[down] = tempStr;
             }
         }
-        swap(&array[i + 1], &array[back]);
-        return (i + 1);
+        // swap the elements at front and down
+        double temp2 = avgDelays[front];
+        avgDelays[front] = avgDelays[down];
+        avgDelays[down] = temp2;
+        string tempStr2 = names[front]; // swap the airline/airport names too
+        names[front] = names[down];
+        names[down] = tempStr2;
+
+        // return the new pivot position (at down)
+        return down;
+
     }
 
-    void quickSort(double array[], int front, int back) {
+    void quickSortHelper(double avgDelays[], string names[], int front, int back) {
         if (front < back) {
-            int k = partition(array, front, back);
-            quickSort(array, front, k - 1);
-            quickSort(array, k + 1, back);
+            int k = partition2(avgDelays, names, front, back); // get the pivot value
+
+            // quick sort the elements before the pivot
+            quickSortHelper(avgDelays, names, front, k - 1);
+
+            // quick sort the elements after the pivot
+            quickSortHelper(avgDelays, names, k + 1, back);
         }
     }
 
