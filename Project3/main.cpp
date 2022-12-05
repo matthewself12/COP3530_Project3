@@ -208,10 +208,10 @@ int main() {
             cout << " Avg Delay: " << v1.at(i).second << " minutes" << endl;
         }
         cout << "Shell Sort took " << (durationShell.count() / 1000000.0) << " seconds"<< endl;
-        cout << "Quick Sort took " << (durationQuick.count() / 1000000.0) << " seconds"<< endl;
+        cout << "Quick Sort took " << (durationQuick.count() / 1000000.0) << " seconds"<< endl << endl;
     }
 
-
+    system("pause");
     return 0;
 }
 
