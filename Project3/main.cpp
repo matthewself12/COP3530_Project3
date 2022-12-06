@@ -125,7 +125,7 @@ vector<FlightList::Flight> getDataFromCSVFile(string filePath){
 
 
 int main() {
-    cout << "Initializing..." << endl;
+    cout << "Initializing..." << endl << endl;
 
     FlightList flightData;
 
@@ -159,57 +159,73 @@ int main() {
     string airlineSortBy;
     string airportSortBy;
 
+    while(filterBy != "Quit" && filterBy != "quit") {
 
-    cout << "Welcome to Airport Ally" << endl;
-    cout << "What would you like to filter by?: Airline or Airport" << endl;
-    cin >> filterBy;
+        cout << "___________________________________________________________________________" << endl;
 
-    if(filterBy == "Airline"){
-        cout << "Enter the IATA of the Airline you are flying (e.g. Southwest is WN):" << endl;
-        cin >> airlineSortBy;
+        cout << "\nWelcome to Airport Ally" << endl;
+        cout << "What would you like to filter by?: Airline or Airport (Or type \"Quit\" to exit)" << endl;
+        cin >> filterBy;
 
-        auto startShell = high_resolution_clock::now();
-        vector<pair<string,double>> v1 = flightData.shellSortDepartureDelay(flightData.getAvgDelayAirline(airlineSortBy));
-        auto stopShell = high_resolution_clock::now();
-        auto durationShell = duration_cast<microseconds>(stopShell - startShell);
+        if (filterBy == "Airline") {
+            cout << "\nEnter the IATA of the Airline you are flying (e.g. Southwest is WN):" << endl;
+            cin >> airlineSortBy;
 
-        auto startQuick = high_resolution_clock::now();
-        vector<pair<string,double>> v2 = flightData.quickSortDepartureDelay(flightData.getAvgDelayAirline(airlineSortBy));
-        auto stopQuick = high_resolution_clock::now();
-        auto durationQuick = duration_cast<microseconds>(stopQuick - startQuick);
+            auto startShell = high_resolution_clock::now();
+            vector<pair<string, double>> v1 = flightData.shellSortDepartureDelay(
+                    flightData.getAvgDelayAirline(airlineSortBy));
+            auto stopShell = high_resolution_clock::now();
+            auto durationShell = duration_cast<microseconds>(stopShell - startShell);
+
+            auto startQuick = high_resolution_clock::now();
+            vector<pair<string, double>> v2 = flightData.quickSortDepartureDelay(
+                    flightData.getAvgDelayAirline(airlineSortBy));
+            auto stopQuick = high_resolution_clock::now();
+            auto durationQuick = duration_cast<microseconds>(stopQuick - startQuick);
 
 
-        cout << "Here are the top three airports with their corresponding average departure delay times: " << endl;
-        for(int i = 0; i < v2.size(); i++) {
-            cout << "Airport: " << v2.at(i).first << " Avg Delay: " << v2.at(i).second << " minutes" << endl;
+            cout << "\nHere are the top three airports with their corresponding average departure delay times: "
+                 << endl;
+            cout << endl;
+            for (int i = 0; i < v2.size(); i++) {
+                cout << "Airport: " << v2.at(i).first << " Avg Delay: " << v2.at(i).second << " minutes" << endl;
+            }
+            cout << endl;
+            cout << "Shell Sort took " << (durationShell.count() / 1000000.0) << " seconds" << endl;
+            cout << "Quick Sort took " << (durationQuick.count() / 1000000.0) << " seconds" << endl;
+
+
         }
-        cout << "Shell Sort took " << (durationShell.count() / 1000000.0) << " seconds"<< endl;
-        cout << "Quick Sort took " << (durationQuick.count() / 1000000.0) << " seconds"<< endl;
+        if (filterBy == "Airport") {
+            cout << "\nEnter the IATA of the Airport you are flying out of (e.g. Orlando is MCO):" << endl;
+            cin >> airportSortBy;
 
+            auto startShell = high_resolution_clock::now();
+            vector<pair<string, double>> v1 = flightData.shellSortDepartureDelay(
+                    flightData.getAvgDelayAirport(airportSortBy));
+            auto stopShell = high_resolution_clock::now();
+            auto durationShell = duration_cast<microseconds>(stopShell - startShell);
 
-    }
-    if(filterBy == "Airport"){
-        cout << "Enter the IATA of the Airport you are flying out of (e.g. Orlando is MCO):" << endl;
-        cin >> airportSortBy;
+            auto startQuick = high_resolution_clock::now();
+            vector<pair<string, double>> v2 = flightData.quickSortDepartureDelay(
+                    flightData.getAvgDelayAirport(airportSortBy));
+            auto stopQuick = high_resolution_clock::now();
+            auto durationQuick = duration_cast<microseconds>(stopQuick - startQuick);
 
-        auto startShell = high_resolution_clock::now();
-        vector<pair<string,double>> v1 = flightData.shellSortDepartureDelay(flightData.getAvgDelayAirport(airportSortBy));
-        auto stopShell = high_resolution_clock::now();
-        auto durationShell = duration_cast<microseconds>(stopShell - startShell);
-
-        auto startQuick = high_resolution_clock::now();
-        vector<pair<string,double>> v2 = flightData.quickSortDepartureDelay(flightData.getAvgDelayAirport(airportSortBy));
-        auto stopQuick = high_resolution_clock::now();
-        auto durationQuick = duration_cast<microseconds>(stopQuick - startQuick);
-
-        cout << "Here are the top three airlines at " << airportSortBy << " with their corresponding average departure delay times at " << airportSortBy << ": " << endl;
-        for(int i = 0; i < v1.size(); i++) {
-            cout << "Airline: " << v1.at(i).first << " (" << airlines[v1.at(i).first] << ")";
-            cout << " Avg Delay: " << v1.at(i).second << " minutes" << endl;
+            cout << "\nHere are the top three airlines at " << airportSortBy
+                 << " with their corresponding average departure delay times at " << airportSortBy << ": " << endl;
+            cout << endl;
+            for (int i = 0; i < v1.size(); i++) {
+                cout << "Airline: " << v1.at(i).first << " (" << airlines[v1.at(i).first] << ")";
+                cout << "\tAvg Delay: " << v1.at(i).second << " minutes" << endl;
+            }
+            cout << endl;
+            cout << "Shell Sort took " << (durationShell.count() / 1000000.0) << " seconds" << endl;
+            cout << "Quick Sort took " << (durationQuick.count() / 1000000.0) << " seconds" << endl << endl;
         }
-        cout << "Shell Sort took " << (durationShell.count() / 1000000.0) << " seconds"<< endl;
-        cout << "Quick Sort took " << (durationQuick.count() / 1000000.0) << " seconds"<< endl << endl;
     }
+
+    cout << "\nThanks for using Aiport Ally! Have a good trip!" << endl;
 
     system("pause");
     return 0;
